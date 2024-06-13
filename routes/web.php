@@ -20,6 +20,7 @@ Route::get('/', function () {
 
 Route::get('/threads', 'App\Http\Controllers\ThreadsController@index');
 Route::get('/threads/{thread}', 'App\Http\Controllers\ThreadsController@show');
+Route::post('/threads/{thread}/replies', 'App\Http\Controllers\RepliesController@store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

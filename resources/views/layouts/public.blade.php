@@ -36,13 +36,16 @@
             </div>
         </header>
 
-        <div class="w-full max-w-6xl mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <div class="text-left">
+        <div class="w-full max-w-6xl mt-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="text-left px-6 py-4">
                 @if (isset($header))
                     {{ $header }}
                 @endif
             </div>
-            {{ $slot }}
+            <hr>
+            <div class="text-left p-6">
+                {{ $slot }}
+            </div>
         </div>
     </div>
     </body>
