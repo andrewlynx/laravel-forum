@@ -32,13 +32,25 @@ class ThreadsController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
         $thread = Thread::create([
-            'user_id' => auth()->id(),
-            'title' => request('title'),
-            'body' => request('body'),
+            'user_id'     => auth()->id(),
+            'category_id' => request('category_id'),
+            'title'       => request('title'),
+            'body'        => request('body'),
         ]);
 
         return redirect($thread->path());
@@ -47,7 +59,7 @@ class ThreadsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Thread $thread)
+    public function show($categoryId, Thread $thread)
     {
         return view('threads.show', ['thread' => $thread]);
     }

@@ -20,6 +20,9 @@ class ThreadFactory extends Factory
             'user_id' => function() {
                 return UserFactory::new();
             },
+            'category_id' => function() {
+                return CategoryFactory::new();
+            },
             'title' => fake()->sentence,
             'body'  => fake()->paragraph,
         ];

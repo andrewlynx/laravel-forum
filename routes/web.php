@@ -25,7 +25,8 @@ Route::get('/', function () {
 
 Route::resource('threads', 'App\Http\Controllers\ThreadsController')
     ->name('index', 'threads');
-Route::post('/threads/{thread}/replies', 'App\Http\Controllers\RepliesController@store')->name('add_thread_reply');
+Route::get('threads/{category}/{thread}', 'App\Http\Controllers\ThreadsController@show');
+Route::post('/threads/{category}/{thread}/replies', 'App\Http\Controllers\RepliesController@store')->name('add_thread_reply');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

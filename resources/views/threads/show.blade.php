@@ -16,7 +16,10 @@
     @endforeach
 
     @if(auth()->check())
-        <form method="POST" action="{{ route('add_thread_reply', ['thread' => $thread->id]) }}" class="py-6 max-w-7xl mx-auto">
+        <form method="POST"
+              action="/{{ $thread->path().'/replies' }}"
+              class="py-6 max-w-7xl mx-auto"
+        >
             {{ csrf_field() }}
             <div class="form-group mx-auto">
                 <textarea name="body" id="body" class="form-control w-full rounded-lg" placeholder="Have something to say?" rows="5"></textarea>
