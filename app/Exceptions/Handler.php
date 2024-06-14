@@ -25,8 +25,6 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->renderable(function (Throwable $e) {
-            // allow showing `route not found` exceptions for tests
-            if (app()->environment() === 'testing'/* and $e instanceof NotFoundHttpException*/) throw $e;
         });
     }
 }

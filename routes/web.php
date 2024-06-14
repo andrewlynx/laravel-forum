@@ -18,9 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/threads', 'App\Http\Controllers\ThreadsController@index');
-Route::get('/threads/{thread}', 'App\Http\Controllers\ThreadsController@show');
-Route::post('/threads/{thread}/replies', 'App\Http\Controllers\RepliesController@store');
+//Route::get('/threads', 'App\Http\Controllers\ThreadsController@index')->name('threads');
+//Route::post('/threads', 'App\Http\Controllers\ThreadsController@store')->name('threads_store');
+//Route::get('/threads/create', 'App\Http\Controllers\ThreadsController@create')->name('threads_create');
+//Route::get('/threads/{thread}', 'App\Http\Controllers\ThreadsController@show');
+
+Route::resource('threads', 'App\Http\Controllers\ThreadsController')
+    ->name('index', 'threads');
+Route::post('/threads/{thread}/replies', 'App\Http\Controllers\RepliesController@store')->name('add_thread_reply');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

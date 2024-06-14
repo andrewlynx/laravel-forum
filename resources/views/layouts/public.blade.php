@@ -14,14 +14,14 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
     <body class="font-sans text-gray-900 antialiased">
     <div class="min-h-screen flex flex-col items-center pt-6 sm:pt-0 bg-gray-100">
         <!-- Page Heading -->
         <header class="bg-white shadow w-full border-gray-200 px-4 lg:px-6 py-2.5">
             <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
                 <div class="text-right">
-                    @if (Route::has('login'))
+                    <a href="{{ url('/threads') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Threads</a>
+                @if (Route::has('login'))
                         @auth
                             <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
                         @else
@@ -36,7 +36,7 @@
             </div>
         </header>
 
-        <div class="w-full max-w-6xl mt-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="w-full max-w-6xl mt-6 pb-3 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <div class="text-left px-6 py-4">
                 @if (isset($header))
                     {{ $header }}
@@ -48,6 +48,5 @@
             </div>
         </div>
     </div>
-    </body>
     </body>
 </html>
