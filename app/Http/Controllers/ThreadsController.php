@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 
@@ -15,9 +16,13 @@ class ThreadsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Category $category = null)
     {
-        $threads = Thread::all()->sortDesc();
+        if ($category and $category->exists) {
+            $threads = $category->threads->sortDesc()->all();
+        } else {
+            $threads = Thread::all()->sortDesc();
+        }
 
         return view('threads.index', ['threads' => $threads]);
     }

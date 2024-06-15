@@ -18,14 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/threads', 'App\Http\Controllers\ThreadsController@index')->name('threads');
-//Route::post('/threads', 'App\Http\Controllers\ThreadsController@store')->name('threads_store');
-//Route::get('/threads/create', 'App\Http\Controllers\ThreadsController@create')->name('threads_create');
-//Route::get('/threads/{thread}', 'App\Http\Controllers\ThreadsController@show');
+//Route::resource('threads', 'App\Http\Controllers\ThreadsController')
+//    ->name('index', 'threads');
 
-Route::resource('threads', 'App\Http\Controllers\ThreadsController')
-    ->name('index', 'threads');
-Route::get('threads/{category}/{thread}', 'App\Http\Controllers\ThreadsController@show');
+Route::get('/threads', 'App\Http\Controllers\ThreadsController@index')->name('threads');
+Route::get('/threads/create', 'App\Http\Controllers\ThreadsController@create')->name('threads_create');
+Route::get('/threads/{category}', 'App\Http\Controllers\ThreadsController@index');
+Route::get('/threads/{category}/{thread}', 'App\Http\Controllers\ThreadsController@show');
+Route::post('/threads', 'App\Http\Controllers\ThreadsController@store')->name('threads_store');
 Route::post('/threads/{category}/{thread}/replies', 'App\Http\Controllers\RepliesController@store')->name('add_thread_reply');
 
 Route::get('/dashboard', function () {

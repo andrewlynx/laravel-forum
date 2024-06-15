@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Category;
 use App\Models\Reply;
 use App\Models\Thread;
-use Database\Factories\ThreadFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -41,5 +41,17 @@ class ReadThreadsTest extends TestCase
         $reply = create(Reply::class, ['thread_id' => $this->thread->id]);
         $this->get($this->thread->path())
             ->assertSee($reply->body);
+    }
+
+    /** @test */
+    function a_user_can_view_threads_by_category()
+    {
+        $category = create(Category::class);
+        $threadInCategory = create(Thread::class, ['category_id' => $category->id]);
+        $threadNotInCategory = create(Thread::class);
+
+        $this->get('/threads/'. $category->slug)
+            ->assertSee($threadInCategory->title)
+            ->assertDontSee($threadNotInCategory->title);
     }
 }

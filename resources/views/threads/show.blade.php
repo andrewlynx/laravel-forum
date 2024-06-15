@@ -1,4 +1,4 @@
-<x-public-layout>
+<x-app-layout>
     <x-slot name="header">
         <div class="bg-grey-200 py-2">
             <a href="#">
@@ -27,7 +27,7 @@
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 border border-blue-700 rounded">Post</button>
         </form>
     @else
-        <p class="text-center p-6">Please <a href="{{ route('login') }}">sign in</a> to leave a comment</p>
+        <p class="text-center p-6">Please <a href="/{{ route('login') }}">sign in</a> to leave a comment</p>
     @endif
 
-</x-public-layout>
+</x-app-layout>
