@@ -6,6 +6,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -53,5 +54,33 @@ class ReadThreadsTest extends TestCase
         $this->get('/threads/'. $category->slug)
             ->assertSee($threadInCategory->title)
             ->assertDontSee($threadNotInCategory->title);
+    }
+
+    /** @test */
+    function a_user_can_filter_threads_by_any_username()
+    {
+        $this->signIn(create(User::class, ['name' => 'User_1']));
+
+        $threadByUser_1 = create(Thread::class, ['user_id' => auth()->id()]);
+        $threadByOtherUser = create(Thread::class);
+
+        $this->get('threads?by=User_1')
+            ->assertSee($threadByUser_1->title)
+            ->assertDontSee($threadByOtherUser->title);
+    }
+
+    /** @test */
+    function a_user_can_filter_threads_by_popularity()
+    {
+        $threadWithThreeReplies = create(Thread::class);
+        create(Reply::class, ['thread_id' => $threadWithThreeReplies->id], 3);
+
+        $threadWithTwoReplies = create(Thread::class);
+        create(Reply::class, ['thread_id' => $threadWithTwoReplies->id], 2);
+
+        $threadWithNoReplies = $this->thread;
+
+        $response = $this->getJson('threads?popular=1')->json();
+        $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
     }
 }

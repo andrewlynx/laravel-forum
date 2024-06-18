@@ -4,14 +4,38 @@
         <div class="flex justify-between h-16">
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:-my-px sm:flex sm:items-center">
-                <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-lg font-medium leading-3 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out" href="http://127.0.0.1:8000/">
+                <a class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-lg font-medium leading-3 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                    href="/">
                     Forum
                 </a>
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-nav-link>
-                <x-nav-link :href="route('threads')" :active="request()->routeIs('dashboard')">
-                    {{ __('All Threads') }}
+                <x-dropdown align="right" width="48">
+                    <x-slot name="trigger">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <div>Threads</div>
+                        </button>
+                    </x-slot>
+                    <x-slot name="content">
+                        <a class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                            href="/threads">
+                            {{ __('All Threads') }}
+                        </a>
+                        @auth
+                        <a class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                           href="/threads?by={{ auth()->user()->name }}">
+                            {{ __('My Threads') }}
+                        </a>
+                        @endauth
+                        <a class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                           href="/threads?popular=1">
+                            {{ __('Popular Threads') }}
+                        </a>
+                    </x-slot>
+                </x-dropdown>
+                <x-nav-link :href="route('threads_create')" :active="request()->routeIs('threads_create')">
+                    {{ __('New Thread') }}
                 </x-nav-link>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -21,8 +45,9 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        @foreach(\App\Models\Category::all() as $category)
-                            <a class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" href="http://127.0.0.1:8000/threads/{{ $category->slug }}">
+                        @foreach($categories as $category)
+                            <a class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                               href="/threads/{{ $category->slug }}">
                                 {{ $category->name }}
                             </a>
                         @endforeach

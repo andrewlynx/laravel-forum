@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\ThreadFilters;
 use App\Models\Category;
 use App\Models\Thread;
 use Illuminate\Http\Request;
@@ -16,12 +17,12 @@ class ThreadsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Category $category = null)
+    public function index(Category $category = null, ThreadFilters $filters)
     {
-        if ($category and $category->exists) {
-            $threads = $category->threads->sortDesc()->all();
-        } else {
-            $threads = Thread::all()->sortDesc();
+        $threads = $this->getThreads($category, $filters);
+
+        if (request()->wantsJson()) {
+            return $threads;
         }
 
         return view('threads.index', ['threads' => $threads]);
@@ -66,7 +67,7 @@ class ThreadsController extends Controller
      */
     public function show($categoryId, Thread $thread)
     {
-        return view('threads.show', ['thread' => $thread]);
+        return view('threads.show', ['thread' => $thread, 'replies' => $thread->replies()->paginate(5)]);
     }
 
     /**
@@ -91,5 +92,21 @@ class ThreadsController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    /**
+     * @param Category|null $category
+     * @param ThreadFilters $filters
+     * @return mixed
+     */
+    public function getThreads(?Category $category, ThreadFilters $filters)
+    {
+        if ($category and $category->exists) {
+            $threads = $category->threads()->getQuery();
+        } else {
+            $threads = Thread::query();
+        }
+
+        return $threads->filter($filters)->get();
     }
 }
