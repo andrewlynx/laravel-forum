@@ -28,6 +28,8 @@ Route::get('/threads/{category}/{thread}', 'App\Http\Controllers\ThreadsControll
 Route::post('/threads', 'App\Http\Controllers\ThreadsController@store')->name('threads_store');
 Route::post('/threads/{category}/{thread}/replies', 'App\Http\Controllers\RepliesController@store')->name('add_thread_reply');
 
+Route::post('/replies/{reply}/favorites', 'App\Http\Controllers\FavoritesController@store');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
