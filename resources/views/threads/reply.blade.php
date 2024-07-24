@@ -1,7 +1,7 @@
 <div class="w-full max-w-6xl mt-6 bg-gray-100 overflow-hidden sm:rounded-lg">
     <div class="flex bg-grey-200 p-4 py-2 border-solid border-grey-light border-b">
         <h5 class="flex-1">
-            <a href="#">
+            <a href="{{ route('profile', $reply->owner) }}">
                 {{ $reply->owner->name }}
             </a> said {{ $reply->created_at->diffForHumans() }}
         </h5>

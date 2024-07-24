@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="flex-2/3 bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900">
             <form method="POST" action="/threads" class="py-6 max-w-7xl mx-auto">
                 {{ csrf_field() }}

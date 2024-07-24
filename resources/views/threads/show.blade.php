@@ -1,12 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $thread->title }}
+            Thread
         </h2>
     </x-slot>
 
     <div class="w-3/4 p-2">
         <div class="p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <a href="{{ route('profile', $thread->creator) }}">
+                {{ $thread->creator->name }}
+            </a> posted:
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ $thread->title }}
+            </h2>
             {{ $thread->body }}
 
             @foreach ($replies as $reply)
